@@ -1,3 +1,5 @@
+
+
 package com.company;
 
 import kohonen.LearningData;
@@ -19,23 +21,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-//        try {
-//            randomData(WEIGHTS_PATH, 10);
-//            randomData(TRAINING_DATA_PATH, 10);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            randomData(TRAINING_DATA_PATH, 1000);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         MatrixTopology topology = new MatrixTopology(5,10);
         DefaultNetwork network = new DefaultNetwork(2,new double[]{100,200},topology);
         ConstantFunctionalFactor constantFactor = new ConstantFunctionalFactor(0.8);
         LearningData fileData = new LearningData(TRAINING_DATA_PATH);
 
-        new WTALearningFunction(network, 20, new EuclidesMetric(), fileData, constantFactor)
-                .learn();
+        WTALearningFunction learning = new WTALearningFunction(network, 20, new EuclidesMetric(), fileData, constantFactor);
+
+        learning.learn();
 
         System.out.println(network);
-
     }
 
     private static void randomData(String filename, int lines) throws IOException {
